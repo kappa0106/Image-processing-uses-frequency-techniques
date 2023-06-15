@@ -35,7 +35,9 @@ Use the frequency techniques to beautify picture
 
 * Transfer Function
 
-    ${\Large  H(u,v) = \left\{\begin{matrix}1  & if \ D(u,v)\le D_{0}  \\0  & if \ D(u,v) >  D_{0}\end{matrix}\right.}$
+    ```math
+    {\Large H(u,v) = \left\{\begin{matrix}1 & if \ D(u,v)\le D_{0} \\0 & if \ D(u,v) > D_{0}\end{matrix}\right. }
+    ```
 
 * Implementation
 1. 對輸入的圖片進行快速傅立葉轉換(FFT)，得到頻譜。
@@ -74,8 +76,9 @@ def ideal_filter(img, cutoff):
 特點是在截止頻率附近具有平滑的過渡區域，可以有效地減少高頻噪聲，同時保留較多的圖像細節。
 
 * Transfer Function
-
-    ${\Large  H(u,v) = \cfrac{1}{1 \ + \ \left [\,D(u,v)/D_{0} \,\right ]^{2n}  }}$
+  ```math
+  {\Large  H(u,v) = \cfrac{1}{1 \ + \ \left [\,D(u,v)/D_{0} \,\right ]^{2n}  }}
+  ```
 
 * Implementation
 1. 對輸入的圖片進行快速傅立葉轉換(FFT)，得到頻譜。
@@ -111,8 +114,9 @@ def butterworth_filter(img, cutoff, order):
 對整幅圖像進行加權平均的過程，每一個像素點的值，都由其本身和鄰域內的其他像素值經過加權平均後得到。
 
 * Transfer Function
-
-    ${\Large  H(u,v) = e^{-D^{2}(u,v)/2D_{0}^{2} }}$
+  ```math
+  {\Large  H(u,v) = e^{-D^{2}(u,v)/2D_{0}^{2} }}
+  ```
 
 * Implementation
 1. 對輸入的圖片進行快速傅立葉轉換(FFT)，得到頻譜。
@@ -150,14 +154,14 @@ def gaussian_filter(img, sigma):
 ### 3.1 Face Mask
 希望只針對需要圖片美化的部分進行處理，以選用的圖片為例，圖片中的女孩臉頰上有大量雀斑，主要目標為消除臉上的雀斑，因此將其他不需要進行濾波的部分建立 mask，並跟據此 mask 對需要美化的部分進行濾波。
 
-![](img/input_image.jpg)
+![img/input_image.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/input_image.jpg)
 
 #### 3.1.1 臉部以外的區域
 ```python
 all_face = np.zeros_like(img)
 all_face = cv2.ellipse(all_face, (315, 210), (120, 170), 0, 0, 360, 255, -1)
 ```
-![](img\face.png)
+![img\face.png](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/face.png)
 
 
 #### 3.1.2 眼睛、眉毛、鼻孔、嘴巴
@@ -169,7 +173,7 @@ cv2.ellipse(face_mask, (315, 310), (45, 15), 0, 0, 360, 255, -1)
 cv2.circle(face_mask, (300, 265), 6, 255, -1)
 cv2.circle(face_mask, (330, 265), 6, 255, -1)
 ```
-![](img\Facial_features.png)
+![img\Facial_features.png](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/Facial_features.png)
 
 #### 3.1.3 對特定部分進行濾波
 
@@ -216,45 +220,45 @@ img_filtered = area_filter((ideal_filtered + butterworth_filtered + gaussian_fil
 ### 4.1 Result
 所有生成圖片與輸入圖片的對比圖
 
-![](img\result_of_image.jpg)
+![img\result_of_image.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/result_of_image.jpg)
 
 ### 4.2 Individual Filter Results
 
 #### 4.2.1 Ideal Lowpass Filter
 平滑效果較差，圖像的噪點有減少，但不夠平滑。
 
-![](img\output_ideal.jpg)
+![img\output_ideal.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_ideal.jpg)
 
 #### 4.2.2 Butterworth Lowpass Filter
 平滑效果不錯，保留的細節也是最多的，像是唇角及蘋果肌都比其他種濾波器更為明顯。
 
-![](img\output_butterworth.jpg)
+![img\output_butterworth.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_butterworth.jpg)
 
 #### 4.2.3 Gaussian Lowpass Filter
 平滑效果最好，但某些區域的清晰度略微下降，像是唇角及蘋果肌就比 Butterworth Lowpass Filter 還要不明顯。
 
-![](img\output_gaussian.jpg)
+![img\output_gaussian.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_gaussian.jpg)
 
 ### 4.3 Combination of Filters
 不同濾波器各有優缺，因此相互結合可以彌補缺點，從結果來看，不同的組合都讓生成的圖片在降噪與細節間取得了不錯的平衡，也許調整結合的比重可以獲的更好的效果。
 
 #### 4.3.1 Ideal Butterworth Filter
 
-![](img\output_ideal_butterworth.jpg)
+![img\output_ideal_butterworth.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_ideal_butterworth.jpg)
 
 
 #### 4.3.2 Butterworth Gaussian Filter
 
-![](img\output_butterworth_gaussian.jpg)
+![img\output_butterworth_gaussian.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_butterworth_gaussian.jpg)
 
 
 #### 4.3.3 Ideal Gaussian Filter
 
-![](img\output_ideal_gaussian.jpg)
+![img\output_ideal_gaussian.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_ideal_gaussian.jpg)
 
 #### 4.3.4 Overall Combination 
 
-![](img\output_all.jpg)
+![img\output_all.jpg](https://github.com/kappa0106/Image-processing-uses-frequency-techniques/blob/main/img/output_all.jpg)
 
 ### 4.4 Discussion
 
