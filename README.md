@@ -1,5 +1,6 @@
 # Beautification
 Use the frequency techniques to beautify picture
+
 ## Table of Contents
 - [Beautification](#beautification)
   - [Table of Contents](#table-of-contents)
@@ -21,8 +22,6 @@ Use the frequency techniques to beautify picture
 ## 作業要求
 1. Get several face pictures.
 2. Generate two kinds of enhanced pictures: one represents the pictures before beautification, the other after beautification. Please use the frequency techniques as the primary methods.
-
-![](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_46922b263a186023118d5802dbb50ebb.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1686848164&Signature=wlQ0216can66pPxf5za4z6YZJUw%3D)
 
 ## I. Introduction
 
@@ -151,14 +150,14 @@ def gaussian_filter(img, sigma):
 ### 3.1 Face Mask
 希望只針對需要圖片美化的部分進行處理，以選用的圖片為例，圖片中的女孩臉頰上有大量雀斑，主要目標為消除臉上的雀斑，因此將其他不需要進行濾波的部分建立 mask，並跟據此 mask 對需要美化的部分進行濾波。
 
-![](img\input_image.jpg)
+![](img/input_image.jpg)
 
 #### 3.1.1 臉部以外的區域
 ```python
 all_face = np.zeros_like(img)
 all_face = cv2.ellipse(all_face, (315, 210), (120, 170), 0, 0, 360, 255, -1)
 ```
-![](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_e91ccc00a5d35c9020302e451e7fb3f2.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1686848208&Signature=9FiNKvC%2FuVJqxFVpMpzKjXC7uGw%3D)
+![](img\face.png)
 
 
 #### 3.1.2 眼睛、眉毛、鼻孔、嘴巴
@@ -170,7 +169,7 @@ cv2.ellipse(face_mask, (315, 310), (45, 15), 0, 0, 360, 255, -1)
 cv2.circle(face_mask, (300, 265), 6, 255, -1)
 cv2.circle(face_mask, (330, 265), 6, 255, -1)
 ```
-![](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_a19af39057168d3ae4fe18b38179595a.png?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1686848217&Signature=CxTgZAdz%2F3GAmS4NSFcMgSkdesQ%3D)
+![](img\Facial_features.png)
 
 #### 3.1.3 對特定部分進行濾波
 
@@ -217,7 +216,7 @@ img_filtered = area_filter((ideal_filtered + butterworth_filtered + gaussian_fil
 ### 4.1 Result
 所有生成圖片與輸入圖片的對比圖
 
-![](https://hackmd-prod-images.s3-ap-northeast-1.amazonaws.com/uploads/upload_4d04e4c6a5e90fe963d2505ecb401c9c.jpg?AWSAccessKeyId=AKIA3XSAAW6AWSKNINWO&Expires=1686848375&Signature=hU7b1FkV0mAoTxLA1b8QcXObYyQ%3D)
+![](img\result_of_image.jpg)
 
 ### 4.2 Individual Filter Results
 
