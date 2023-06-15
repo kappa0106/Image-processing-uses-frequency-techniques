@@ -23,6 +23,7 @@ Use the frequency techniques to beautify picture
 1. Get several face pictures.
 2. Generate two kinds of enhanced pictures: one represents the pictures before beautification, the other after beautification. Please use the frequency techniques as the primary methods.
 
+![](https://upload.cc/i1/2023/06/16/MhLv1a.png)
 ## I. Introduction
 
 利用 frequency techniques 進行圖像美化，主要針對減少皮膚瑕疵的影響。
